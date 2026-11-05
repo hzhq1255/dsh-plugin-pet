@@ -23,6 +23,7 @@
     "cordis.patch.yml",
     "docs/*.md",
     "assets/README.md",
+    "NOTICE.md",
     "README.md",
     "LICENSE"
   ],

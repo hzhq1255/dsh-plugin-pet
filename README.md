@@ -138,4 +138,4 @@ npm run check     # 语法 + 全部测试
 ## License
 
 代码 MIT（见 [LICENSE](LICENSE)，包含上游 MIT 版权行）。**美术不在 MIT 范围内**，
-由使用者自行提供并自负授权。
+由使用者自行提供并自负授权。第三方声明与格式出处见 [NOTICE.md](NOTICE.md)。
