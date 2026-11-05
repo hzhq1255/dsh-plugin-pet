@@ -1,0 +1,7 @@
+# dsh-plugin-pet — profile layer.
+#
+# One row: the host half serves /plugins/dsh-plugin-pet/pets,
+# the browser half registers the `shell.overlay` companion.
+- insert:
+    - id: pet
+      name: dsh-plugin-pet

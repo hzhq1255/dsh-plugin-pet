@@ -1,0 +1,52 @@
+{
+  "name": "dsh-plugin-pet",
+  "version": "0.1.0",
+  "description": "Codex-Pet-compatible desktop pet for the DeepSeek Harness web GUI: a floating, session-aware companion with v1/v2 sprite atlases.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": []
+    }
+  },
+  "files": [
+    "lib/*.js",
+    "cordis.patch.yml",
+    "docs/*.md",
+    "assets/README.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test test/",
+    "check": "node --check lib/index.js && node --check lib/pet-store.js && node --check lib/client.js && node --test test/"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.0"
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "plugin",
+    "desktop-pet",
+    "codex-pet",
+    "cordis"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hzhq1255/dsh-plugin-pet.git"
+  }
+}

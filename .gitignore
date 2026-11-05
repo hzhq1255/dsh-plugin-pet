@@ -1,0 +1,13 @@
+node_modules/
+.DS_Store
+*.log
+coverage/
+
+# Artwork never ships from this repository. Pet packages are user-supplied.
+*.webp
+*.png
+*.gif
+*.jpg
+*.jpeg
+assets/**
+!assets/README.md
