@@ -91,7 +91,7 @@ cp /tmp/maid/assets/pet.json /tmp/maid/assets/spritesheet.webp ~/.dsh/pets/blue-
 | 拖拽 | 移动位置，松手即存（`localStorage: dsh-plugin-pet:pos`） |
 | 单击 / Enter | 挥手 |
 | 双击 | 跳一下 |
-| 右键 | 轮换到下一只宠物 |
+| 右键 | 轮换到下一只宠物（会先重新读取目录，新放入的宠物无需刷新页面） |
 | 气泡按钮 | 打开对应的会话 |
 
 `prefers-reduced-motion: reduce` 下只显示当前动作的首帧，不播动画。

@@ -132,3 +132,15 @@ test("pet choice prefers the stored id, then the host default", () => {
   assert.equal(fresh.choosePet(pets, "missing").id, "blue-whale-maid");
   assert.equal(fresh.choosePet([], "x"), null);
 });
+
+test("pet cycling wraps, tolerates one pet, and ignores an unknown current id", () => {
+  const { cyclePet } = loadClient().__test;
+  const pets = [{ id: "a" }, { id: "b" }, { id: "c" }];
+  assert.equal(cyclePet(pets, "a"), "b");
+  assert.equal(cyclePet(pets, "b"), "c");
+  assert.equal(cyclePet(pets, "c"), "a");
+  assert.equal(cyclePet(pets, "zzz"), "a");
+  assert.equal(cyclePet([{ id: "a" }], "a"), "a");
+  assert.equal(cyclePet([], "a"), "");
+  assert.equal(cyclePet(undefined, "a"), "");
+});

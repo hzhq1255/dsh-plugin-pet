@@ -1,6 +1,6 @@
 {
   "name": "dsh-plugin-pet",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Codex-Pet-compatible desktop pet for the DeepSeek Harness web GUI: a floating, session-aware companion with v1/v2 sprite atlases.",
   "type": "module",
   "main": "lib/index.js",
