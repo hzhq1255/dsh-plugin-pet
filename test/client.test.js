@@ -83,26 +83,36 @@ test("v1 falls back to the idle row when a v2 action is requested", () => {
   assert.equal(frameAt("lookA", 10, 1).index, frameAt("idle", 10, 1).index);
 });
 
-test("waiting outranks running, and blank sessions are ignored", () => {
+test("animation follows the current session; other sessions only notify", () => {
   const { deriveMode } = loadClient().__test;
   const rows = [
     { id: "a", running: true, pending: false, blank: false },
     { id: "b", running: false, pending: true, blank: false },
-    { id: "c", running: true, pending: true, blank: true },
   ];
-  const waiting = deriveMode(rows);
-  assert.equal(waiting.mode, "wait");
-  assert.equal(waiting.row.id, "b");
 
-  const running = deriveMode([{ id: "a", running: true, pending: false, blank: false }]);
-  assert.equal(running.mode, "run");
-  assert.equal(running.row.id, "a");
+  const onA = deriveMode(rows, "a");
+  assert.equal(onA.mode, "run");
+  assert.equal(onA.row.id, "a");
+  assert.equal(onA.pendingOther.id, "b");
 
-  const idle = deriveMode([{ id: "a", running: false, pending: false, blank: false }]);
-  assert.equal(idle.mode, "idle");
-  assert.equal(idle.row, null);
+  const onB = deriveMode(rows, "b");
+  assert.equal(onB.mode, "wait");
+  assert.equal(onB.row.id, "b");
+  assert.equal(onB.pendingOther, null);
 
-  assert.equal(deriveMode(undefined).mode, "idle");
+  assert.equal(deriveMode(rows, undefined).mode, "idle");
+  assert.equal(deriveMode(rows, "ghost").mode, "idle");
+  assert.equal(deriveMode([{ id: "c", running: true, pending: true, blank: true }], "c").mode, "idle");
+});
+
+test("look frames map 16 directions onto rows 9 and 10", () => {
+  const { lookFrameFor } = loadClient().__test;
+  const plain = (value) => JSON.parse(JSON.stringify(value));
+  assert.deepEqual(plain(lookFrameFor(0, -10)), { row: 9, col: 0 }, "up = 0°");
+  assert.deepEqual(plain(lookFrameFor(10, 0)), { row: 9, col: 4 }, "right = 90°");
+  assert.deepEqual(plain(lookFrameFor(0, 10)), { row: 10, col: 0 }, "down = 180°");
+  assert.deepEqual(plain(lookFrameFor(-10, 0)), { row: 10, col: 4 }, "left = 270°");
+  assert.deepEqual(plain(lookFrameFor(10, -10)), { row: 9, col: 2 }, "45°");
 });
 
 test("position clamps into the viewport", () => {
@@ -143,4 +153,26 @@ test("pet cycling wraps, tolerates one pet, and ignores an unknown current id", 
   assert.equal(cyclePet([{ id: "a" }], "a"), "a");
   assert.equal(cyclePet([], "a"), "");
   assert.equal(cyclePet(undefined, "a"), "");
+});
+
+test("registers both the overlay occupant and the settings section", () => {
+  const plugin = loadClient();
+  const registered = [];
+  const ctx = {
+    slots: {
+      inject: (_name, make) => make(),
+      register: (options) => {
+        registered.push(options);
+        return () => {};
+      },
+    },
+    sessions: { open() {} },
+    logger: { warn() {} },
+  };
+  plugin.apply(ctx);
+  assert.equal(registered.length, 2);
+  assert.equal(registered[0].name, "settings.section");
+  assert.equal(registered[0].id, "pet");
+  assert.equal(registered[1].name, "shell.overlay");
+  assert.equal(registered[1].id, "pet");
 });

@@ -4,9 +4,12 @@
 [Codex Pet](https://github.com/nexu-io/open-design/blob/main/docs/codex-pets.md)
 的图集规范，但宠物的位置、目录和分发都由 DSH 自己管。
 
-- 会话在跑 → `running`；有任务等你确认 → `waiting` + 气泡 + 「去看看 →」
+- 当前会话在跑 → `running`；它等你确认 → `waiting` + 气泡 + 「去看看 →」
+- 其他会话的「等你确认 / 这一轮结束」只出气泡，**不抢动作**
 - 一轮结束 → 中性提示「这一轮结束了」（**不**宣称成功）
 - 拖拽换位置（刷新后保持）、单击挥手、双击跳起、右键换宠物
+- **视线跟随**：v2 图集下按 16 向（第 9/10 行）看向鼠标
+- **设置 → 桌宠**：列出 `$DSH_HOME/pets` 下的宠物，点选即时切换
 - 支持 Codex Pet **v1（8×9）与 v2（8×11）** 两种图集
 - 零运行时依赖，**仓库不含任何美术资产**
 
@@ -92,6 +95,8 @@ cp /tmp/maid/assets/pet.json /tmp/maid/assets/spritesheet.webp ~/.dsh/pets/blue-
 | 单击 / Enter | 挥手 |
 | 双击 | 跳一下 |
 | 右键 | 轮换到下一只宠物（会先重新读取目录，新放入的宠物无需刷新页面） |
+| 设置 → 桌宠 | 从列表里直接选择；写入 `localStorage: dsh-plugin-pet:pet` |
+| 鼠标靠近（v2） | 按 16 向看向光标；离开 1.5s 后回 idle |
 | 气泡按钮 | 打开对应的会话 |
 
 `prefers-reduced-motion: reduce` 下只显示当前动作的首帧，不播动画。
